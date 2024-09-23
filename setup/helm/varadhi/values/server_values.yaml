@@ -122,7 +122,7 @@ images:
   appImage:
     registry: jfrog.fkinternal.com
     repository: varadhi-oss/varadhi
-    tag: local-c1-remote-ip
+    tag: test
   zookeeper:
     registry: docker.io
     repository: zookeeper
