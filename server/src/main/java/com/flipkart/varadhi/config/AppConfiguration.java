@@ -12,6 +12,8 @@ import io.vertx.core.http.HttpServerOptions;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
+import java.util.Map;
+
 @Getter
 public class AppConfiguration {
     @NotNull
@@ -68,4 +70,6 @@ public class AppConfiguration {
 
     @NotNull
     private ControllerConfig controller;
+
+    private Map<String, String> otlpConfig;
 }
