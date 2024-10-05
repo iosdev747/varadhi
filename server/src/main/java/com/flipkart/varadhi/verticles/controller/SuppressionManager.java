@@ -38,8 +38,7 @@ public class SuppressionManager {
             topicTrafficDataMap.put(topic, new ClientHistory<>(windowSize));
         }
 
-        // todo(rl): how to use from and to while adding in the history
-        topicTrafficDataMap.get(topic).add(clientId, topicLoadInfo);//.getBytesIn() / windowSizeInSeconds);
+        topicTrafficDataMap.get(topic).add(clientId, topicLoadInfo);
 
         Double actualThroughout =
                 clientIdList.stream().map(client -> getThroughput(client, topic)).reduce(0.0, Double::sum);
