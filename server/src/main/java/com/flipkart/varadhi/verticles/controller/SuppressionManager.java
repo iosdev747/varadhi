@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 
+// TODO(rl): try to move business logic to RL module
 @Slf4j
 public class SuppressionManager {
     Map<String, ClientHistory<TopicLoadInfo>> topicTrafficDataMap; // topic to client load info
