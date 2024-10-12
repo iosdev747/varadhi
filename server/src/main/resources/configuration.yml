@@ -85,5 +85,3 @@ otlpConfig:
   otlp.aggregationTemporality: "CUMULATIVE"
   otlp.resourceAttributes:
   otlp.headers:
-
-useHostname: true

@@ -11,16 +11,17 @@ public class HostUtilsTest {
     @Test
     public void TestGetHostName() throws UnknownHostException {
         // dummy test.. no validations here.
-        String host = HostUtils.getHostNameOrAddress(true);
+        String host = HostUtils.getHostName();
         Assertions.assertNotNull(host);
         Assertions.assertEquals(InetAddress.getLocalHost().getHostName(), host);
     }
 
     @Test
-    public void TestGetAddress() throws UnknownHostException {
+    public void TestGetHostAddress() throws UnknownHostException {
         // dummy test.. no validations here.
-        String host = HostUtils.getHostNameOrAddress(false);
-        Assertions.assertNotNull(host);
-        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), host);
+        String address = HostUtils.getHostAddress();
+        Assertions.assertNotNull(address);
+        Assertions.assertEquals(InetAddress.getLocalHost().getHostAddress(), address);
     }
+
 }
