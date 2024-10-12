@@ -8,6 +8,7 @@ import com.flipkart.varadhi.core.cluster.ControllerApi;
 import com.flipkart.varadhi.entities.StorageTopic;
 import com.flipkart.varadhi.entities.TopicCapacityPolicy;
 import com.flipkart.varadhi.entities.VaradhiTopic;
+import com.flipkart.varadhi.entities.cluster.MemberInfo;
 import com.flipkart.varadhi.produce.otel.ProducerMetricHandler;
 import com.flipkart.varadhi.produce.services.ProducerService;
 import com.flipkart.varadhi.services.*;
@@ -48,6 +49,7 @@ import java.util.function.Function;
 public class WebServerVerticle extends AbstractVerticle {
     private final Map<RouteBehaviour, RouteConfigurator> routeBehaviourConfigurators = new HashMap<>();
     private final AppConfiguration configuration;
+    private final MemberInfo memberInfo;
     private final VaradhiClusterManager clusterManager;
     private final MessagingStackProvider messagingStackProvider;
     private final MetaStore metaStore;
@@ -62,9 +64,10 @@ public class WebServerVerticle extends AbstractVerticle {
     private HttpServer httpServer;
 
     public WebServerVerticle(
-            AppConfiguration configuration, CoreServices services, VaradhiClusterManager clusterManager
+            AppConfiguration configuration, MemberInfo memberInfo, CoreServices services, VaradhiClusterManager clusterManager
     ) {
         this.configuration = configuration;
+        this.memberInfo = memberInfo;
         this.clusterManager = clusterManager;
         this.messagingStackProvider = services.getMessagingStackProvider();
         this.metaStore = services.getMetaStoreProvider().getMetaStore();
@@ -122,7 +125,9 @@ public class WebServerVerticle extends AbstractVerticle {
         );
         subscriptionService = new SubscriptionService(shardProvisioner, controllerApiProxy, metaStore);
         try {
-            rateLimiterService = new RateLimiterService(clusterManager.getExchange(vertx), meterRegistry, 1, configuration.isUseHostname()); // TODO(rl): convert to config
+            // use host address as clientId for now.
+            rateLimiterService = new RateLimiterService(clusterManager.getExchange(vertx), meterRegistry, 1,
+                    memberInfo.hostname()); // TODO(rl): convert to config
             generateLoad();
         } catch (UnknownHostException e) {
             log.error("Error creating RateLimiterService", e);

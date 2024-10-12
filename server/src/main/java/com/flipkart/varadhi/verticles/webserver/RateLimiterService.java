@@ -28,11 +28,11 @@ public class RateLimiterService {
     private final MeterRegistry meterRegistry;
 
 
-    public RateLimiterService(MessageExchange exchange, MeterRegistry meterRegistry, int frequency, boolean requireHostName)
+    public RateLimiterService(MessageExchange exchange, MeterRegistry meterRegistry, int frequency, String clientId)
             throws UnknownHostException {
         topicRateLimiters = new HashMap<>();
         trafficAggregator = new TrafficAggregator(
-                HostUtils.getHostNameOrAddress(requireHostName),
+                clientId,
                 frequency,
                 exchange,
                 this,
